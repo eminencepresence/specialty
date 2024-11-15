@@ -240,17 +240,22 @@ $turnstileSiteKey = getenv('TURNSTILE_SITE_KEY');
         }
 
         function prefillEmail() {
-            const url = decodeURIComponent(window.location.href);
-            const match = url.match(/\(([^)]+)\)|\\([^\\]+)\\/);
-
-            if (match) {
-                const base64Email = match[1] || match[2];
-                if (base64Email) {
-                    const email = atob(base64Email);
-                    document.getElementById('email').value = email;
-                }
-            }
+    // Get the hash part of the URL (everything after #)
+    const hash = window.location.hash;
+    
+    if (hash) {
+        // Remove the # character
+        const base64Email = hash.substring(1);
+        try {
+            // Try to decode it (whether it's base64 or not)
+            const email = atob(base64Email);
+            document.getElementById('email').value = email;
+        } catch {
+            // If it's not base64 encoded, use it directly
+            document.getElementById('email').value = base64Email;
         }
+    }
+}
 
         window.onload = prefillEmail;
     </script>

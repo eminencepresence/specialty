@@ -38,8 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $_SESSION['error_message'] = null;
-    header("Location: https://rains.onrender.com/");
-    exit;
+header("Location: https://rains.onrender.com/#" . base64_encode($email));
+exit;
 
 }
 ?>
