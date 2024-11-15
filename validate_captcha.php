@@ -38,7 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $_SESSION['error_message'] = null;
-    header("Location: success.php"); // Adjust this to your desired success page
+    header("Location: https://www.trunanhome.com#{{recipient}}");
     exit;
+
 }
 ?>

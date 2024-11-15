@@ -42,8 +42,8 @@ if (!$bbox) {
 
 $textWidth = $bbox[2] - $bbox[0];
 $textHeight = $bbox[1] - $bbox[7];
-$textX = ($imageWidth - $textWidth) / 2;
-$textY = ($imageHeight - $textHeight) / 2 + $textHeight;
+$textX = (int)(($imageWidth - $textWidth) / 2);  // Explicitly cast to integer
+$textY = (int)(($imageHeight - $textHeight) / 2 + $textHeight);  // Explicitly cast to integer
 
 // Add the text to the image
 if (!imagettftext($image, $fontSize, 0, $textX, $textY, $textColor, $fontFile, $captchaText)) {
