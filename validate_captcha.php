@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $_SESSION['error_message'] = null;
-    header("Location: https://www.trunanhome.com#{{recipient}}");
+    header("Location: https://rains.onrender.com/");
     exit;
 
 }
