@@ -153,7 +153,7 @@ include 'block-check.php';
             <input type="text" id="text-captcha" name="text_captcha" class="captcha-input" placeholder="Enter CAPTCHA" required>
 
             <!-- Cloudflare Turnstile CAPTCHA -->
-            <div class="cf-turnstile" data-sitekey="0x4AAAAAAAzbaCIIxhpKU4HJ" data-callback="onTurnstileVerified"></div>
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAAA0DYZjZ9s2HydTY" data-callback="onTurnstileVerified"></div>
 
             <!-- Submit button -->
             <div class="button-container">
