@@ -5,8 +5,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $userTextCaptcha = $_POST['text_captcha'];
     $turnstileResponse = $_POST['cf-turnstile-response'];
-    $secretKey = getenv('TURNSTILE_SECRET_KEY');
-    var_dump($secretKey); 
+    $secretKey = getenv('TURNSTILE_SECRET_KEY'); 
 
     // Validate text-based CAPTCHA
     if ($userTextCaptcha !== $_SESSION['captcha_text']) {
