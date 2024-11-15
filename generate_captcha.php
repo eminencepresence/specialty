@@ -19,6 +19,9 @@ for ($i = 0; $i < 5; $i++) {
 }
 
 $fontFile = __DIR__ . '/assets/fonts/Roboto-Regular.ttf';
+if (!file_exists($fontFile)) {
+    die("Font file not found: " . $fontFile);
+}
 $fontSize = 24;
 $bbox = imagettfbbox($fontSize, 0, $fontFile, $captchaText);
 $textWidth = $bbox[2] - $bbox[0];
