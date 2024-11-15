@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!$captchaSuccess->success) {
         $_SESSION['error_message'] = "Cloudflare CAPTCHA verification failed. Please try again.";
-        header("Location: index.php");
+        header("Location: https://google.com/");
         exit;
     }
 
