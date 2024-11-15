@@ -30,6 +30,10 @@ RUN chown -R www-data:www-data /var/www/html
 # Set the correct permissions for the assets directory, especially the fonts
 RUN chmod -R 755 /var/www/html/assets/fonts
 
+# Environment variables for Cloudflare Turnstile keys
+ENV CLOUDFLARE_SITE_KEY=0x4AAAAAAA0DYZjZ9s2HydTY
+ENV CLOUDFLARE_SECRET_KEY=0x4AAAAAAA0DYXF02_2SB6sHDQpqsf1BXdE
+
 # Expose the port for HTTP
 EXPOSE 80
 
