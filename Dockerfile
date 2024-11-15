@@ -1,7 +1,7 @@
 # Start with the official PHP image
 FROM php:8.1-apache
 
-# Install dependencies
+# Install dependencies for GD and FreeType support
 RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
@@ -14,14 +14,21 @@ RUN apt-get update && apt-get install -y \
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
-# Install required PHP extensions
-RUN docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd
+# Configure GD with JPEG and FreeType support, then install PHP extensions
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd
+
+# Set the working directory to /var/www/html
+WORKDIR /var/www/html
 
 # Copy the application code to the container
 COPY . /var/www/html/
 
-# Set the correct permissions for Apache
+# Set correct permissions for Apache
 RUN chown -R www-data:www-data /var/www/html
+
+# Set the correct permissions for the assets directory, especially the fonts
+RUN chmod -R 755 /var/www/html/assets/fonts
 
 # Expose the port for HTTP
 EXPOSE 80
